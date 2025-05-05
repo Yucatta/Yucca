@@ -65,12 +65,15 @@ const TextArea = ({ CurrentPerson, list }: Props) => {
   }, [CurrentPerson]);
   console.log(messagelist, "this is message list");
   return (
-    <div className="h-full w-5/6 bg-gray-500 flex-col flex">
+    <div className="h-full w-5/6 bg-neutral-900 flex-col flex">
       <PersonsInfo
         CurrentPerson={CurrentPerson}
         CurrentUser={typeof userindex === "number" ? list[userindex] : ""}
       ></PersonsInfo>
-      <TextHistory texthistory={messagelist}></TextHistory>
+      <TextHistory
+        texthistory={messagelist}
+        User={typeof userindex === "number" ? list[userindex] : ""}
+      ></TextHistory>
       <InputArea handleSendingMessage={(e) => handlemessage(e)}></InputArea>
     </div>
   );

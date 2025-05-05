@@ -9,6 +9,7 @@ import { Stream, Readable } from "stream";
 // import { fromReadableStream } from "@aws-sdk/node-http-handler";
 import { promisify } from "util";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { receiveMessageOnPort } from "worker_threads";
 const BUCKET_NAME = process.env.CLOUDFLARE_R2_BUCKET_NAME;
 const ACCESS_KEY = process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
 const SECRET_KEY = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
@@ -21,10 +22,10 @@ if (!ACCESS_KEY || !SECRET_KEY || !ENDPOINT) {
 }
 interface MessageLogRequestBody {
   messagehistory: Array<{
-    sender: string;
-    receiver: string;
-    message: string;
-    time: Date;
+    Sender: string;
+    Receiver: string;
+    Message: string;
+    Time: Date;
   }>;
 }
 const s3Client = new S3Client({
@@ -40,23 +41,28 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { messagehistory } = req.body as MessageLogRequestBody;
-  console.log(messagehistory[0], "this is messagehistory");
+  // console.log(messagehistory[0], "this is messagehistory");
   try {
     if (req.method === "POST") {
       const csvStringifier = createObjectCsvStringifier({
         header: [
-          { id: "sender", title: "Sender" },
-          { id: "receiver", title: "Receiver" },
-          { id: "time", title: "Time" },
-          { id: "message", title: "Message" },
+          { id: "Sender", title: "Sender" },
+          { id: "Receiver", title: "Receiver" },
+          { id: "Time", title: "Time" },
+          { id: "Message", title: "Message" },
         ],
       });
+      const SortedList = [
+        messagehistory[0].Sender,
+        messagehistory[0].Receiver,
+      ].sort();
+      console.log(messagehistory);
       const csvContent =
         csvStringifier.getHeaderString() +
         csvStringifier.stringifyRecords(messagehistory);
       const putObjectCommand = new PutObjectCommand({
         Bucket: BUCKET_NAME,
-        Key: `${messagehistory[0].sender}-TO-${messagehistory[0].receiver}.csv`,
+        Key: `${SortedList[0]}-AND-${SortedList[1]}.csv`,
         Body: csvContent,
         ContentType: "text/csv",
       });

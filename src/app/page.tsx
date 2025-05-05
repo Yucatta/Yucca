@@ -11,26 +11,18 @@ export default function Home() {
   const { userindex, setuserindex } = useUserInfo();
   const list = [
     "Ahmet",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
+    "Masum Kedii",
+    "Yorgun Kedi",
+    "Sıkılmış Kedi",
+    "Diğer Yönde Sıkılmış Kedi",
+    "Yana Bakan Kedi",
+    "Ilgilenen Kedi",
+    "Duz Kedi",
+    "Yukari Bakan Kedi",
+    "Kamerya Bakan Kedi",
+    "Utangac Kedi",
   ];
-  // // console.log(temp);
-  // const temp = [...list];
-  // if (typeof userindex === "number") {
-  //   temp.splice(userindex, 1);
-  // }
-  // console.log(temp);
+
   return (
     <>
       {typeof userindex === "number" ? (
@@ -55,7 +47,7 @@ export default function Home() {
               return (
                 <li
                   key={index}
-                  className="w-3/4 border-1 rounded-xl h-5 mt-3 flex justify-center cursor-pointer hover:bg-gray-500 "
+                  className="w-3/4 border-1 rounded-xl h-6 mt-3 flex justify-center cursor-pointer hover:bg-gray-500 "
                   onClick={() => {
                     const thisindex = list.findIndex((li) => {
                       if (person === li) {

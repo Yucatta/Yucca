@@ -20,7 +20,7 @@ export function useAPIcalls() {
         throw new Error(data.error || "Unknown error");
       }
     } catch (error) {
-      console.error("Error updating score:", error);
+      console.error("Error updating messages:", error);
     }
   }
   async function FetchMessageLogs(LogInformations: {

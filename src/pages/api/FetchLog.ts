@@ -6,7 +6,6 @@ import {
 } from "@aws-sdk/client-s3";
 import { createObjectCsvStringifier } from "csv-writer";
 import { Stream, Readable } from "stream";
-// import { fromReadableStream } from "@aws-sdk/node-http-handler";
 import { promisify } from "util";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { send } from "process";
@@ -21,8 +20,8 @@ if (!ACCESS_KEY || !SECRET_KEY || !ENDPOINT) {
   );
 }
 interface MessageLogRequestBody {
-  sender: string;
-  receiver: string;
+  Sender: string;
+  Receiver: string;
 }
 const s3Client = new S3Client({
   region: "auto",
@@ -40,11 +39,12 @@ export default async function handler(
   //   console.log(messagehistory[0], "this is messagehistory");
   if (req.method === "GET") {
     const { sender, receiver } = req.query;
+    const sortedlist = [sender, receiver].sort();
     console.log(sender, receiver);
     try {
       const getObjectCommand = new GetObjectCommand({
         Bucket: BUCKET_NAME,
-        Key: `${sender}-TO-${receiver}.csv`,
+        Key: `${sortedlist[0]}-AND-${sortedlist[1]}.csv`,
       });
       const response = await s3Client.send(getObjectCommand);
       if (!response) {
@@ -61,9 +61,6 @@ export default async function handler(
           write(chunk, encoding, callback) {
             csvData.push(chunk);
             callback();
-            if (response === "a") {
-              console.log(encoding);
-            }
           },
         })
       );
