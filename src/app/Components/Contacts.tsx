@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useUserInfo } from "@/contexrt/userinfo";
+import { useUserInfo } from "@/context/userinfo";
 interface Props {
   handleClickingPerson: (e: string | undefined) => void;
   list: string[];

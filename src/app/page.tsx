@@ -1,5 +1,5 @@
 "use client";
-import { useUserInfo } from "@/contexrt/userinfo";
+import { useUserInfo } from "@/context/userinfo";
 import Contacts from "./Components/Contacts";
 import TextArea from "./Components/TextArea";
 import { useState } from "react";

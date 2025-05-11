@@ -13,22 +13,35 @@ const TextHistory = ({ texthistory, User }: Props) => {
     <div className="w-full h-5/6 flex flex-col ">
       {texthistory.map((messageinfo, index) => {
         console.log(messageinfo.Sender, User, "aaaa");
-        // cons;ole.log(classname, messageinfo.Time.getHours());
         const date = new Date(messageinfo.Time);
-        // const hours = new Date(messageinfo.Time).getHours();
-        // const minutes = new Date(messageinfo.Time).getHours();
-        const leftrem = messageinfo.Message.length * 4;
-        console.log(leftrem);
-        console.log(
-          `text-xs relative left-[${messageinfo.Message.length}px] top-6 text-neutral-400`
+        const prevdate = new Date(
+          texthistory[index - 1 > -1 ? index - 1 : index].Time
         );
-        return messageinfo.Sender === User ? (
-          <div className={"flex flex-col items-end"} key={index}>
+        return (
+          <div
+            className={
+              messageinfo.Sender === User
+                ? "flex flex-col items-end"
+                : "flex flex-col items-start"
+            }
+            key={index}
+          >
+            {date.getDate() + date.getMonth() + date.getFullYear() ===
+            prevdate.getDate() +
+              prevdate.getMonth() +
+              prevdate.getFullYear() ? (
+              ""
+            ) : (
+              <div className="self-center w-auto h-auto p-2 bg-neutral-700 rounded-lg">
+                {date.getDate()}/{date.getMonth()}/{date.getFullYear()}
+              </div>
+            )}
             <li
               className={
-                "w-auto border-1 rounded-xl h-10 mt-3 flex justify-center px-3 bg-gray-600"
+                messageinfo.Sender === User
+                  ? "w-auto border-1 rounded-xl h-10 mt-3 flex justify-center px-3 bg-gray-600"
+                  : "w-auto border-1  rounded-xl h-10 mt-3 flex justify-center px-3 bg-gray-900"
               }
-              // onClick={() => handleClickingPerson(person)}
             >
               {messageinfo.Message}
               <span
@@ -37,23 +50,34 @@ const TextHistory = ({ texthistory, User }: Props) => {
               >{`${date.getHours()}:${date.getMinutes()}`}</span>
             </li>
           </div>
-        ) : (
-          <div className={"flex  "} key={index}>
-            <li
-              className={
-                "w-auto border-1  rounded-xl h-10 mt-3 flex justify-center px-3 bg-gray-900"
-              }
-              // onClick={() => handleClickingPerson(person)}
-            >
-              <span>{messageinfo.Message}</span>
-              <span
-                //    right-[${messageinfo.Message.length}rem]
-                className={`text-xs relative top-6  text-neutral-400`}
-                // style={{ left: `${leftrem * 1.5 + 30}px` }}
-              >{`${date.getHours()}:${date.getMinutes()}`}</span>
-            </li>
-          </div>
         );
+        // messageinfo.Sender === User ? (
+        //   ""
+        // ) : (
+        //   <div className={"flex  "} key={index}>
+        //     {date.getDate() + date.getMonth() + date.getFullYear() ===
+        //     prevdate.getDate() +
+        //       prevdate.getMonth() +
+        //       prevdate.getFullYear() ? (
+        //       ""
+        //     ) : (
+        //       <div className="self-center h-10 text-xs">
+        //         {date.getDate()}/{date.getMonth()}/{date.getFullYear()}
+        //       </div>
+        //     )}
+        //     <li
+        //       className={
+        //         "w-auto border-1  rounded-xl h-10 mt-3 flex justify-center px-3 bg-gray-900"
+        //       }
+        //     >
+        //       <span>{messageinfo.Message}</span>
+        //       <span
+        //         className={`text-xs relative top-6  text-neutral-400`}
+        //         // style={{ left: `${leftrem * 1.5 + 30}px` }}
+        //       >{`${date.getHours()}:${date.getMinutes()}`}</span>
+        //     </li>
+        //   </div>
+        // );
       })}
     </div>
   );

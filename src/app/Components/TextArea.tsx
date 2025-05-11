@@ -4,7 +4,7 @@ import PersonsInfo from "./Peoplesinfo";
 import { cursorTo } from "readline";
 import TextHistory from "./TextHistory";
 import InputArea from "./InputArea";
-import { useUserInfo } from "@/contexrt/userinfo";
+import { useUserInfo } from "@/context/userinfo";
 import { useAPIcalls } from "@/hooks/APICalls";
 import { measureMemory } from "vm";
 interface Props {
