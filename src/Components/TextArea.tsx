@@ -23,15 +23,6 @@ const TextArea = ({ CurrentPerson, list }: Props) => {
   const { userindex } = useUserInfo();
   const { UpdateMessageLogs, FetchMessageLogs } = useAPIcalls();
   async function handlemessage(e: string) {
-    var now = new Date();
-    // console.log(...messagelist);
-    // console.log({
-    //   user: list[userindex!],
-    //   otherside: CurrentPerson,
-    //   time: now,
-    //   message: e,
-    // });
-
     const temp = [
       ...messagelist,
       {

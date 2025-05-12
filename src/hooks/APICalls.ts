@@ -23,6 +23,21 @@ export function useAPIcalls() {
       console.error("Error updating messages:", error);
     }
   }
+  async function AddUser(DisplayName: string) {
+    try {
+      const res = await fetch("/api/registernewuser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(DisplayName),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Unknown error");
+      }
+    } catch (error) {
+      console.error("Error updating messages:", error);
+    }
+  }
   async function FetchMessageLogs(LogInformations: {
     sender: string;
     receiver: string;

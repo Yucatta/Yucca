@@ -7,12 +7,23 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { error } from "console";
 
 export const doCreateUserWithEmailAndPassword = async (
   email: string,
-  password: string
+  password: string,
+  DisplayName: string
 ) => {
-  return createUserWithEmailAndPassword(authfirebase, email, password);
+  try {
+    const a = await createUserWithEmailAndPassword(
+      authfirebase,
+      email,
+      password
+    );
+    console.log("if its wrong you cant se", a);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const dosigInWithEmailAndPassword = async (
@@ -22,6 +33,6 @@ export const dosigInWithEmailAndPassword = async (
   return signInWithEmailAndPassword(authfirebase, email, password);
 };
 
-export const dosginout = async (email: string, password: string) => {
-  return authfirebase.signOut();
+export const dosginout = async () => {
+  return signOut(authfirebase);
 };

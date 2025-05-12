@@ -33,7 +33,7 @@ export function UserInfoProvider({ children }: { children: ReactNode }) {
 
   async function Initializeuser(user: User | null) {
     if (user) {
-      setcurrentUser({ ...user });
+      setcurrentUser(user);
       setuserloggedin(true);
     } else {
       setcurrentUser(null);
@@ -53,7 +53,7 @@ export function UserInfoProvider({ children }: { children: ReactNode }) {
 export function useUserInfo() {
   const context = useContext(userinfocontext);
   if (!context) {
-    throw new Error("aaaaaaa");
+    throw new Error("not initialized");
   }
   return context;
 }

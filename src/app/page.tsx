@@ -1,8 +1,9 @@
 "use client";
 import { useUserInfo } from "@/context/userinfo";
-import Contacts from "./Components/Contacts";
-import TextArea from "./Components/TextArea";
+import Contacts from "../Components/Contacts";
+import TextArea from "../Components/TextArea";
 import { useState } from "react";
+import { dosginout } from "@/firebase/auth";
 
 export default function Home() {
   const [selectedperson, setselectedperson] = useState<string | undefined>(
@@ -22,7 +23,11 @@ export default function Home() {
     "Kamerya Bakan Kedi",
     "Utangac Kedi",
   ];
-
+  async function handlesignout() {
+    console.log("starting");
+    await dosginout();
+    console.log("finishing");
+  }
   return (
     <>
       {typeof userindex === "number" ? (
@@ -47,7 +52,7 @@ export default function Home() {
               return (
                 <li
                   key={index}
-                  className="w-3/4 border-1 rounded-xl h-6 mt-3 flex justify-center cursor-pointer hover:bg-gray-500 "
+                  className="w-3/4 border-1 rounded-xl h-6 mt-3 flex justify-center cursor-pointer  hover:bg-gray-500 "
                   onClick={() => {
                     const thisindex = list.findIndex((li) => {
                       if (person === li) {
@@ -69,6 +74,12 @@ export default function Home() {
               );
             })}
           </div>
+          <button
+            className="bg-neutral-500 rounded-lg mt-5 cursor-pointer h-15 w-30"
+            onClick={handlesignout}
+          >
+            Signout
+          </button>
         </div>
       )}
     </>

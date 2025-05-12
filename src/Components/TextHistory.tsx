@@ -10,7 +10,7 @@ interface Props {
 }
 const TextHistory = ({ texthistory, User }: Props) => {
   return (
-    <div className="w-full h-5/6 flex flex-col ">
+    <div className="w-full h-5/6 flex flex-col overflow-y-scroll  ">
       {texthistory.map((messageinfo, index) => {
         console.log(messageinfo.Sender, User, "aaaa");
         const date = new Date(messageinfo.Time);
@@ -51,33 +51,6 @@ const TextHistory = ({ texthistory, User }: Props) => {
             </li>
           </div>
         );
-        // messageinfo.Sender === User ? (
-        //   ""
-        // ) : (
-        //   <div className={"flex  "} key={index}>
-        //     {date.getDate() + date.getMonth() + date.getFullYear() ===
-        //     prevdate.getDate() +
-        //       prevdate.getMonth() +
-        //       prevdate.getFullYear() ? (
-        //       ""
-        //     ) : (
-        //       <div className="self-center h-10 text-xs">
-        //         {date.getDate()}/{date.getMonth()}/{date.getFullYear()}
-        //       </div>
-        //     )}
-        //     <li
-        //       className={
-        //         "w-auto border-1  rounded-xl h-10 mt-3 flex justify-center px-3 bg-gray-900"
-        //       }
-        //     >
-        //       <span>{messageinfo.Message}</span>
-        //       <span
-        //         className={`text-xs relative top-6  text-neutral-400`}
-        //         // style={{ left: `${leftrem * 1.5 + 30}px` }}
-        //       >{`${date.getHours()}:${date.getMinutes()}`}</span>
-        //     </li>
-        //   </div>
-        // );
       })}
     </div>
   );
