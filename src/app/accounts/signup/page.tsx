@@ -16,18 +16,12 @@ const page = () => {
   const passwordref = useRef<HTMLInputElement | null>(null);
   const displaynameref = useRef<HTMLInputElement | null>(null);
   const { loading, userloggedin, currentUser } = useUserInfo();
-  console.log(userloggedin);
   const router = useRouter();
   useEffect(() => {
     if (userloggedin) {
       // router.push("/");
     }
   }, [userloggedin]);
-  useEffect(() => {
-    console.log(userloggedin);
-    console.log(loading);
-    console.log(currentUser);
-  }, [userloggedin, loading, currentUser]);
 
   async function handlenickname() {
     if (currentUser) {
@@ -56,7 +50,6 @@ const page = () => {
       }
     }
   }
-  console.log(userloggedin);
   return (
     <>
       <div className="flex justify-center  absolute items-center w-screen h-screen bg-black">

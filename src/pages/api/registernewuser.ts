@@ -10,7 +10,9 @@ import { Stream, Readable } from "stream";
 import { promisify } from "util";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { receiveMessageOnPort } from "worker_threads";
-const BUCKET_NAME = process.env.CLOUDFLARE_R2_BUCKET_NAME;
+import { cursorTo } from "readline";
+// const BUCKET_NAME = process.env.CLOUDFLARE_R2_BUCKET_NAME2;
+const BUCKET_NAME = "yucca-users";
 const ACCESS_KEY = process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
 const SECRET_KEY = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
 const ENDPOINT = process.env.CLOUDFLARE_R2_ENDPOINT;
@@ -20,12 +22,7 @@ if (!ACCESS_KEY || !SECRET_KEY || !ENDPOINT) {
     "Missing Cloudflare R2 credentials or endpoint in environment variables."
   );
 }
-interface MessageLogRequestBody {
-  Userinformation: Array<{
-    UID: string;
-    Displayname: string;
-  }>;
-}
+
 const s3Client = new S3Client({
   region: "auto",
   endpoint: ENDPOINT,
@@ -38,28 +35,33 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { Userinformation } = req.body as MessageLogRequestBody;
   try {
     if (req.method === "POST") {
+      const Currentuser = req.body;
       const csvStringifier = createObjectCsvStringifier({
         header: [
           { id: "uid", title: "UID" },
           { id: "displayname", title: "displayname" },
         ],
       });
+      // console.log(csvStringifier.stringifyRecords(Currentuser), "stringifyed");
       const csvContent =
         csvStringifier.getHeaderString() +
-        csvStringifier.stringifyRecords(messagehistory);
+        Currentuser.UID +
+        "," +
+        Currentuser.Displayname;
+      csvStringifier.stringifyRecords(Currentuser);
+      console.log(csvContent, "csv content");
       const putObjectCommand = new PutObjectCommand({
         Bucket: BUCKET_NAME,
-        Key: `${SortedList[0]}-AND-${SortedList[1]}.csv`,
+        Key: `Users.csv`,
         Body: csvContent,
         ContentType: "text/csv",
       });
-      console.log(csvContent, "yes csvdata");
+      // console.log(csvContent, "yes csvdata");
 
       await s3Client.send(putObjectCommand);
-
+      console.log("should be wrote");
       res.status(200).json({ message: "Data successfully written to CSV" });
     } else {
       res.status(405).json({ error: "Method not allowed" });

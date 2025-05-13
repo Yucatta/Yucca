@@ -23,12 +23,13 @@ export function useAPIcalls() {
       console.error("Error updating messages:", error);
     }
   }
-  async function AddUser(DisplayName: string) {
+  async function AddUser(Currentuser: { UID: string; Displayname: string }) {
     try {
+      console.log(Currentuser);
       const res = await fetch("/api/registernewuser", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(DisplayName),
+        body: JSON.stringify(Currentuser),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -62,5 +63,5 @@ export function useAPIcalls() {
     }
   }
 
-  return { FetchMessageLogs, UpdateMessageLogs };
+  return { FetchMessageLogs, UpdateMessageLogs, AddUser };
 }

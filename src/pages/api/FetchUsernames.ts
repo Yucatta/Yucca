@@ -33,9 +33,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { sender, receiver } = req.query;
-    const sortedlist = [sender, receiver].sort();
-    console.log(sender, receiver);
     try {
       const getObjectCommand = new GetObjectCommand({
         Bucket: BUCKET_NAME2,
@@ -62,7 +59,7 @@ export default async function handler(
       console.log(csvData);
 
       res.status(200).json({
-        message: "Data successfully written to CSV",
+        message: "Data successfully Fetched",
         csvdata: csvData,
       });
       csvData = [];
